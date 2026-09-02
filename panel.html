@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi panel — Vigente Reconquista y Zona</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#F5F6F4; --surface:#FFFFFF; --surface-2:#EDEBE6;
+    --text:#211C1A; --text-2:#6C625A; --border:#E2DED6;
+    --accent:#D9522F; --accent-ink:#A63D20; --accent-soft:#FBE3DB;
+    --ok:#2F7A4F; --ok-soft:#E1F0E6;
+    --info:#2E6A8A; --info-soft:#DEEBF2;
+    --warn:#9A6A16; --warn-soft:#FBF0DD;
+    --shadow: 0 1px 2px rgba(20,15,10,0.07), 0 8px 20px -14px rgba(20,15,10,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#18140F; --surface:#211C18; --surface-2:#2A241F;
+      --text:#F3ECE5; --text-2:#B6A99C; --border:#3A332C;
+      --accent:#F17E56; --accent-ink:#FBB69C; --accent-soft:#3A241B;
+      --ok:#6FC08D; --ok-soft:#1E3327;
+      --info:#7FB6D6; --info-soft:#1E2E38;
+      --warn:#E0B65B; --warn-soft:#332B18;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Figtree',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:16.5px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,.brand,.chip,.tag-plan{ font-family:'Baloo 2',ui-sans-serif,system-ui,sans-serif; }
+  a{ color:inherit; }
+  .wrap{ max-width:560px; margin:0 auto; padding:0 16px 40px; }
+
+  header.top{ background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:20; }
+  .top-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; gap:12px; }
+  .brand{ font-weight:800; font-size:22px; color:var(--accent-ink); display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .brand .logo-icon{ height:32px; width:auto; display:block; flex:0 0 auto; }
+  .brand .logo-icon.logo-dark{ display:none; }
+  @media (prefers-color-scheme: dark){
+    .brand .logo-icon.logo-light{ display:none; }
+    .brand .logo-icon.logo-dark{ display:block; }
+  }
+  .brand small{ display:block; font-family:'Figtree'; font-weight:600; font-size:11.5px; color:var(--text-2); letter-spacing:.02em; }
+  .salir{ font-size:13px; font-weight:700; color:var(--text-2); background:none; border:1px solid var(--border); border-radius:999px; padding:7px 14px; cursor:pointer; }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; margin-top:16px; box-shadow:var(--shadow); }
+  .card h2{ margin:0 0 4px; font-size:17px; }
+  .card p.hint{ margin:0 0 14px; color:var(--text-2); font-size:13.5px; }
+
+  label{ display:block; font-weight:700; font-size:13px; margin:12px 0 5px; }
+  label:first-child{ margin-top:0; }
+  input, textarea{
+    width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--border);
+    background:var(--bg); color:var(--text); font-size:15px; font-family:inherit;
+  }
+  input:focus, textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+  textarea{ resize:vertical; min-height:60px; }
+  .fila-2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+  .btn{
+    display:inline-block; margin-top:16px; background:var(--accent); color:#fff; border:none;
+    padding:11px 20px; border-radius:999px; font-weight:700; font-size:14.5px; cursor:pointer; width:100%;
+  }
+  .btn:disabled{ opacity:.55; cursor:default; }
+  .btn.secundario{ background:none; color:var(--accent-ink); border:1px solid var(--accent); }
+  .btn.chico{ width:auto; padding:8px 14px; font-size:13px; margin-top:0; }
+
+  .pill{ display:inline-block; padding:4px 11px; border-radius:999px; font-size:12px; font-weight:700; }
+  .pill.ok{ background:var(--ok-soft); color:var(--ok); }
+  .pill.warn{ background:var(--warn-soft); color:var(--warn); }
+
+  .fila-info{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border); font-size:14.5px; }
+  .fila-info:last-child{ border-bottom:none; }
+  .fila-info span:first-child{ color:var(--text-2); }
+
+  .beneficio-item{ border:1px solid var(--border); border-radius:12px; padding:13px; margin-top:10px; }
+  .beneficio-item .titulo{ font-weight:700; }
+  .beneficio-item .sub{ color:var(--text-2); font-size:13px; margin-top:2px; }
+
+  .plan-op{ border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .plan-op.actual{ border-color:var(--accent); background:var(--accent-soft); }
+  .plan-op .nombre{ font-weight:800; }
+  .plan-op .precio{ color:var(--text-2); font-size:13px; }
+
+  .banner{ border-radius:12px; padding:13px 15px; margin-top:16px; font-size:14.5px; font-weight:600; }
+  .banner.ok{ background:var(--ok-soft); color:var(--ok); }
+  .banner.error{ background:var(--warn-soft); color:var(--warn); }
+  .banner.info{ background:var(--info-soft); color:var(--info); }
+
+  .oculto{ display:none !important; }
+  .mensaje-error{ color:var(--warn); font-size:13.5px; font-weight:600; margin-top:8px; }
+  .volver{ display:block; text-align:center; margin-top:14px; font-size:13.5px; color:var(--text-2); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="index.html">
+      <img class="logo-icon logo-light" src="logo-icon.png" alt="Vigente Reconquista y Zona">
+      <img class="logo-icon logo-dark" src="logo-icon-dark.png" alt="Vigente Reconquista y Zona">
+      <div>
+        Vigente
+        <small>MI PANEL</small>
+      </div>
+    </a>
+    <button class="salir oculto" id="btnSalir">Salir</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div id="bannerPago"></div>
+
+  <!-- ======================= LOGIN: paso 1, pedir email ======================= -->
+  <div class="card" id="pasoEmail">
+    <h2>Entrar a mi panel</h2>
+    <p class="hint">Ingresá el email con el que te registraste en Vigente. Te mandamos un código para entrar, sin contraseña.</p>
+    <label for="inputEmail">Email</label>
+    <input type="email" id="inputEmail" placeholder="tu@email.com" autocomplete="email">
+    <button class="btn" id="btnPedirCodigo">Enviar código</button>
+    <div class="mensaje-error oculto" id="errorEmail"></div>
+  </div>
+
+  <!-- ======================= LOGIN: paso 2, código ======================= -->
+  <div class="card oculto" id="pasoCodigo">
+    <h2>Revisá tu email</h2>
+    <p class="hint">Te mandamos un código de 6 dígitos. Ingresalo acá abajo (vale por 10 minutos).</p>
+    <label for="inputCodigo">Código</label>
+    <input type="text" id="inputCodigo" inputmode="numeric" maxlength="6" placeholder="123456">
+    <button class="btn" id="btnConfirmarCodigo">Entrar</button>
+    <div class="mensaje-error oculto" id="errorCodigo"></div>
+    <a href="#" class="volver" id="btnVolverEmail">← Usar otro email</a>
+  </div>
+
+  <!-- ======================= PANEL (una vez logueado) ======================= -->
+  <div id="panel" class="oculto">
+
+    <div class="card" id="cardComercio">
+      <h2 id="nombreComercio">—</h2>
+      <p class="hint" id="rubroComercio"></p>
+      <div class="fila-info"><span>Estado</span><span id="estadoComercio">—</span></div>
+      <div class="fila-info"><span>Plan actual</span><span id="planComercio">—</span></div>
+      <div class="fila-info oculto" id="filaVence"><span>Vence</span><span id="venceComercio">—</span></div>
+    </div>
+
+    <div class="card">
+      <h2>Mis beneficios</h2>
+      <p class="hint">Los que cargues acá quedan <b>pendientes de revisión</b> hasta que Vigente los apruebe — así nos aseguramos de que todo lo publicado sea real.</p>
+      <div id="listaBeneficios"></div>
+
+      <button class="btn secundario" id="btnMostrarForm" style="margin-top:16px;">+ Cargar beneficio nuevo</button>
+
+      <form id="formBeneficio" class="oculto" style="margin-top:14px;">
+        <input type="hidden" id="beneficioId">
+        <label for="campoBeneficio">¿Cuál es el beneficio?</label>
+        <input type="text" id="campoBeneficio" placeholder="Ej: 2x1 en helados de 1/4 kg" required>
+
+        <label for="campoCondicion">Condición (opcional)</label>
+        <textarea id="campoCondicion" placeholder="Ej: Lunes, miércoles y domingos. Todos los medios de pago."></textarea>
+
+        <label for="campoImagen">Link de la foto (opcional — pegá el link de "Compartir" de Drive)</label>
+        <input type="url" id="campoImagen" placeholder="https://drive.google.com/file/d/...">
+
+        <div class="fila-2">
+          <div>
+            <label for="campoDesde">Desde</label>
+            <input type="date" id="campoDesde" required>
+          </div>
+          <div>
+            <label for="campoHasta">Hasta</label>
+            <input type="date" id="campoHasta" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Guardar beneficio</button>
+        <div class="mensaje-error oculto" id="errorBeneficio"></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Mi plan</h2>
+      <p class="hint">El pago es real, vía Mercado Pago, y activa tu plan por 30 días. Si no renovás, se desactiva solo.</p>
+      <div id="listaPlanes"></div>
+    </div>
+
+    <button class="btn secundario" id="btnSalir2" style="margin-top:6px;">Cerrar sesión</button>
+  </div>
+
+</div>
+
+<script>
+/* -------------------------------------------------------------------------
+   Igual que en index.html: reemplazá esto por la URL real de tu Apps
+   Script si alguna vez volvés a implementar una versión nueva con otra URL.
+   ------------------------------------------------------------------------- */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyP6fNLwvpK4Rf0rsGdyXSiBuy38LL0_w2LC75YuCjJC8fA8UPIm6VCEsYE1eLdTFWhqA/exec";
+
+const NOMBRES_PLAN = {
+  "Comercio": "Comercio",
+  "Destacado ciudad": "Destacado ciudad",
+  "Vidriera Principal": "Vidriera Principal",
+};
+
+const $ = (id) => document.getElementById(id);
+
+function escapeHtml(str){
+  return String(str ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+async function llamar(accion, params){
+  const url = new URL(APPS_SCRIPT_URL);
+  url.searchParams.set("accion", accion);
+  Object.keys(params || {}).forEach((k) => url.searchParams.set(k, params[k]));
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  return res.json();
+}
+
+/* ---------------------- Banner de vuelta de Mercado Pago ---------------------- */
+(function mostrarBannerPago(){
+  const params = new URLSearchParams(location.search);
+  const pago = params.get("pago");
+  if (!pago) return;
+  const mensajes = {
+    ok: ["ok", "¡Listo! Tu pago se acreditó — puede tardar unos segundos en reflejarse acá abajo."],
+    error: ["error", "El pago no se pudo completar. Podés intentar de nuevo cuando quieras."],
+    pendiente: ["info", "Tu pago está pendiente de acreditación. Te va a quedar activado apenas se confirme."],
+  };
+  const [clase, texto] = mensajes[pago] || [];
+  if (texto) $("bannerPago").innerHTML = `<div class="banner ${clase}">${texto}</div>`;
+  history.replaceState({}, "", location.pathname);
+})();
+
+/* ---------------------------------- Login ---------------------------------- */
+$("btnPedirCodigo").addEventListener("click", async () => {
+  const email = $("inputEmail").value.trim();
+  $("errorEmail").classList.add("oculto");
+  if (!email) return;
+  $("btnPedirCodigo").disabled = true;
+  $("btnPedirCodigo").textContent = "Enviando...";
+  try {
+    const r = await llamar("pedirCodigo", { email });
+    if (!r.ok) throw new Error(r.error || "No pudimos mandar el código.");
+    $("pasoEmail").classList.add("oculto");
+    $("pasoCodigo").classList.remove("oculto");
+    $("inputCodigo").focus();
+  } catch (err) {
+    $("errorEmail").textContent = err.message;
+    $("errorEmail").classList.remove("oculto");
+  } finally {
+    $("btnPedirCodigo").disabled = false;
+    $("btnPedirCodigo").textContent = "Enviar código";
+  }
+});
+
+$("btnVolverEmail").addEventListener("click", (e) => {
+  e.preventDefault();
+  $("pasoCodigo").classList.add("oculto");
+  $("pasoEmail").classList.remove("oculto");
+});
+
+$("btnConfirmarCodigo").addEventListener("click", async () => {
+  const email = $("inputEmail").value.trim();
+  const codigo = $("inputCodigo").value.trim();
+  $("errorCodigo").classList.add("oculto");
+  if (!codigo) return;
+  $("btnConfirmarCodigo").disabled = true;
+  $("btnConfirmarCodigo").textContent = "Verificando...";
+  try {
+    const r = await llamar("verificarCodigo", { email, codigo });
+    if (!r.ok) throw new Error(r.error || "El código no es válido.");
+    localStorage.setItem("vigente_token", r.token);
+    await cargarPanel();
+  } catch (err) {
+    $("errorCodigo").textContent = err.message;
+    $("errorCodigo").classList.remove("oculto");
+  } finally {
+    $("btnConfirmarCodigo").disabled = false;
+    $("btnConfirmarCodigo").textContent = "Entrar";
+  }
+});
+
+function salir(){
+  localStorage.removeItem("vigente_token");
+  location.reload();
+}
+$("btnSalir").addEventListener("click", salir);
+$("btnSalir2").addEventListener("click", salir);
+
+/* ---------------------------------- Panel ---------------------------------- */
+async function cargarPanel(){
+  const token = localStorage.getItem("vigente_token");
+  if (!token) return;
+
+  const r = await llamar("miComercio", { token });
+  if (!r.ok) {
+    // token vencido o inválido: volvemos al login
+    localStorage.removeItem("vigente_token");
+    $("pasoEmail").classList.remove("oculto");
+    return;
+  }
+
+  $("pasoEmail").classList.add("oculto");
+  $("pasoCodigo").classList.add("oculto");
+  $("panel").classList.remove("oculto");
+  $("btnSalir").classList.remove("oculto");
+
+  const c = r.comercio;
+  $("nombreComercio").textContent = c.nombre;
+  $("rubroComercio").textContent = c.rubro;
+  $("estadoComercio").innerHTML = c.activo
+    ? '<span class="pill ok">Activo</span>'
+    : '<span class="pill warn">Inactivo</span>';
+  $("planComercio").textContent = c.plan;
+  if (c.venceplan) {
+    $("filaVence").classList.remove("oculto");
+    $("venceComercio").textContent = c.venceplan;
+  }
+
+  pintarBeneficios(r.beneficios);
+  pintarPlanes(r.precios, c.plan);
+}
+
+function pintarBeneficios(beneficios){
+  const cont = $("listaBeneficios");
+  if (!beneficios.length) {
+    cont.innerHTML = '<p class="hint" style="margin:0;">Todavía no cargaste ningún beneficio.</p>';
+    return;
+  }
+  cont.innerHTML = beneficios.map((b) => `
+    <div class="beneficio-item">
+      <div class="titulo">${escapeHtml(b.beneficio)}</div>
+      <div class="sub">Del ${escapeHtml(b.desde)} al ${escapeHtml(b.hasta)} · ${b.aprobado ? '<span class="pill ok">Aprobado</span>' : '<span class="pill warn">Pendiente de revisión</span>'}</div>
+      <button class="btn chico secundario" style="margin-top:9px;" onclick='editarBeneficio(${JSON.stringify(b)})'>Editar</button>
+    </div>
+  `).join("");
+}
+
+function editarBeneficio(b){
+  $("beneficioId").value = b.id;
+  $("campoBeneficio").value = b.beneficio;
+  $("campoCondicion").value = b.condicion || "";
+  $("campoImagen").value = b.imagen || "";
+  $("campoDesde").value = convertirAFechaInput(b.desde);
+  $("campoHasta").value = convertirAFechaInput(b.hasta);
+  $("formBeneficio").classList.remove("oculto");
+  $("formBeneficio").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+// Los campos vienen como dd/MM/yyyy (para mostrar) — los <input type="date"> necesitan yyyy-MM-dd.
+function convertirAFechaInput(ddmmyyyy){
+  const partes = String(ddmmyyyy || "").split("/");
+  if (partes.length !== 3) return "";
+  return `${partes[2]}-${partes[1]}-${partes[0]}`;
+}
+
+$("btnMostrarForm").addEventListener("click", () => {
+  $("beneficioId").value = "";
+  $("formBeneficio").reset();
+  $("formBeneficio").classList.remove("oculto");
+});
+
+$("formBeneficio").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem("vigente_token");
+  const boton = e.target.querySelector("button[type=submit]");
+  $("errorBeneficio").classList.add("oculto");
+  boton.disabled = true;
+  boton.textContent = "Guardando...";
+  try {
+    const datos = {
+      id: $("beneficioId").value || undefined,
+      beneficio: $("campoBeneficio").value.trim(),
+      condicion: $("campoCondicion").value.trim(),
+      imagen: $("campoImagen").value.trim(),
+      desde: $("campoDesde").value,
+      hasta: $("campoHasta").value,
+    };
+    const r = await llamar("guardarBeneficio", { token, datos: JSON.stringify(datos) });
+    if (!r.ok) throw new Error(r.error || "No se pudo guardar.");
+    $("formBeneficio").classList.add("oculto");
+    await cargarPanel();
+  } catch (err) {
+    $("errorBeneficio").textContent = err.message;
+    $("errorBeneficio").classList.remove("oculto");
+  } finally {
+    boton.disabled = false;
+    boton.textContent = "Guardar beneficio";
+  }
+});
+
+function pintarPlanes(precios, planActual){
+  const cont = $("listaPlanes");
+  cont.innerHTML = Object.keys(precios).map((plan) => {
+    const esActual = plan === planActual;
+    return `
+      <div class="plan-op ${esActual ? "actual" : ""}">
+        <div>
+          <div class="nombre">${escapeHtml(plan)}</div>
+          <div class="precio">$${Number(precios[plan]).toLocaleString("es-AR")} / mes</div>
+        </div>
+        ${esActual
+          ? '<span class="pill ok">Tu plan</span>'
+          : `<button class="btn chico" onclick="pagar('${plan.replace(/'/g, "\\'")}')">Pagar y activar</button>`}
+      </div>
+    `;
+  }).join("");
+}
+
+async function pagar(plan){
+  const token = localStorage.getItem("vigente_token");
+  try {
+    const r = await llamar("generarPago", { token, plan });
+    if (!r.ok) throw new Error(r.error || "No se pudo generar el link de pago.");
+    location.href = r.url; // redirige a Mercado Pago
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+/* ------------------------------- Al cargar ------------------------------- */
+if (localStorage.getItem("vigente_token")) cargarPanel();
+</script>
+
+</body>
+</html>
