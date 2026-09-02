@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vigente Reconquista y Zona — Beneficios y descuentos vigentes hoy</title>
+<meta name="description" content="Descuentos y beneficios vigentes hoy en comercios de Reconquista y zona: ropa, gastronomía, supermercados, heladerías y más, todo en un solo lugar.">
+
+<!-- Open Graph: así se ve la tarjeta cuando alguien comparte el link en WhatsApp/Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Vigente Reconquista y Zona">
+<meta property="og:description" content="Descuentos y beneficios vigentes hoy en comercios de Reconquista y zona.">
+<meta property="og:image" content="og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#F5F6F4; --surface:#FFFFFF; --surface-2:#EDEBE6;
+    --text:#211C1A; --text-2:#6C625A; --border:#E2DED6;
+    --accent:#D9522F; --accent-ink:#A63D20; --accent-soft:#FBE3DB;
+    --ok:#2F7A4F; --ok-soft:#E1F0E6;
+    --info:#2E6A8A; --info-soft:#DEEBF2;
+    --shadow: 0 1px 2px rgba(20,15,10,0.07), 0 8px 20px -14px rgba(20,15,10,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#18140F; --surface:#211C18; --surface-2:#2A241F;
+      --text:#F3ECE5; --text-2:#B6A99C; --border:#3A332C;
+      --accent:#F17E56; --accent-ink:#FBB69C; --accent-soft:#3A241B;
+      --ok:#6FC08D; --ok-soft:#1E3327;
+      --info:#7FB6D6; --info-soft:#1E2E38;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Figtree',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:16.5px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,.brand,.chip,.tag-plan{ font-family:'Baloo 2',ui-sans-serif,system-ui,sans-serif; }
+  a{ color:inherit; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 16px; }
+
+  /* ---------- header ---------- */
+  header.top{ background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:20; }
+  .top-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; gap:12px; }
+  .brand{ font-weight:800; font-size:22px; color:var(--accent-ink); display:flex; align-items:center; gap:8px; }
+  .brand .dot{ width:9px; height:9px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 3px var(--ok-soft); }
+  .brand small{ display:block; font-family:'Figtree'; font-weight:600; font-size:11.5px; color:var(--text-2); letter-spacing:.02em; }
+  .updated{ font-size:12px; color:var(--text-2); text-align:right; }
+
+  /* ---------- filtros ---------- */
+  .filters{ padding:12px 0 4px; }
+  .search{
+    width:100%; padding:11px 14px; border-radius:12px; border:1px solid var(--border);
+    background:var(--surface); color:var(--text); font-size:15px; margin-bottom:10px;
+  }
+  .search:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+  .chips{ display:flex; gap:8px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none; }
+  .chips::-webkit-scrollbar{ display:none; }
+  .chip{
+    flex:0 0 auto; padding:8px 14px; border-radius:999px; border:1px solid var(--border);
+    background:var(--surface); color:var(--text-2); font-weight:700; font-size:13.5px;
+    cursor:pointer; white-space:nowrap; transition:background .15s, color .15s, border-color .15s;
+  }
+  .chip.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  /* ---------- carrusel Vidriera Principal ---------- */
+  .carousel-section{ padding:14px 0 6px; }
+  .carousel-label{ display:flex; align-items:center; gap:6px; font-weight:800; font-size:13px; color:var(--accent-ink); text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; }
+  .carousel{ position:relative; overflow:hidden; border-radius:16px; box-shadow:var(--shadow); }
+  .carousel-track{ display:flex; transition:transform .45s ease; touch-action:pan-y; }
+  .slide{ flex:0 0 100%; background:linear-gradient(135deg, var(--accent), var(--accent-ink)); color:#fff; padding:22px; min-height:150px; display:flex; flex-direction:column; justify-content:flex-end; }
+  .slide .ribbon{ align-self:flex-start; background:rgba(255,255,255,.22); padding:4px 10px; border-radius:999px; font-size:11.5px; font-weight:700; margin-bottom:10px; }
+  .slide .comercio{ font-family:'Baloo 2'; font-weight:800; font-size:20px; }
+  .slide .beneficio{ font-size:15px; margin-top:4px; opacity:.95; }
+  .slide .meta{ font-size:12.5px; opacity:.85; margin-top:8px; }
+  .dots{ display:flex; justify-content:center; gap:6px; padding:10px 0 2px; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; border:none; padding:0; }
+  .dot.active{ background:var(--accent); width:18px; border-radius:5px; transition:width .2s; }
+
+  /* ---------- grilla de beneficios ---------- */
+  .grid{ display:grid; grid-template-columns:1fr; gap:12px; padding:16px 0 40px; }
+  @media (min-width:620px){ .grid{ grid-template-columns:1fr 1fr; } }
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px;
+    box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px; scroll-margin-top:120px;
+  }
+  .card.highlight{ outline:2px solid var(--accent); outline-offset:2px; }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .card .comercio{ font-weight:700; font-size:16.5px; }
+  .rubro-tag{ font-size:11.5px; font-weight:700; color:var(--info); background:var(--info-soft); padding:3px 9px; border-radius:999px; white-space:nowrap; }
+  .card .beneficio{ font-size:15.5px; }
+  .card .condicion{ font-size:13px; color:var(--text-2); }
+  .card-bottom{ display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
+  .vence{ font-size:12px; font-weight:700; color:var(--ok); background:var(--ok-soft); padding:4px 10px; border-radius:999px; }
+  .share-btn{
+    display:flex; align-items:center; gap:6px; background:var(--surface-2); border:none; color:var(--text);
+    padding:7px 12px; border-radius:999px; font-weight:700; font-size:13px; cursor:pointer;
+  }
+  .share-btn:active{ transform:scale(.97); }
+
+  /* ---------- estados: carga / error / vacío / banner ---------- */
+  .skeleton{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px; height:96px; position:relative; overflow:hidden; }
+  .skeleton::after{ content:''; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); animation:shine 1.3s infinite; }
+  @keyframes shine{ from{ transform:translateX(-100%);} to{ transform:translateX(100%);} }
+  .panel{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; text-align:center; color:var(--text-2); }
+  .panel button{ margin-top:10px; background:var(--accent); color:#fff; border:none; padding:9px 18px; border-radius:999px; font-weight:700; cursor:pointer; }
+  .banner{ background:var(--info-soft); color:var(--info); border-radius:12px; padding:12px 14px; font-size:14px; margin:12px 0; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .banner button{ background:none; border:none; color:var(--info); font-weight:700; cursor:pointer; font-size:13px; }
+  .toast{
+    position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); opacity:0;
+    background:var(--text); color:var(--bg); padding:10px 18px; border-radius:999px; font-size:13.5px;
+    font-weight:600; transition:opacity .2s, transform .2s; pointer-events:none; z-index:50;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  footer{ border-top:1px solid var(--border); padding:22px 0 34px; text-align:center; color:var(--text-2); font-size:13px; }
+  footer a{ color:var(--accent-ink); font-weight:700; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">
+      <span class="dot"></span>
+      <div>
+        Vigente
+        <small>RECONQUISTA Y ZONA</small>
+      </div>
+    </div>
+    <div class="updated" id="updated"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="filters">
+    <input class="search" id="search" type="text" placeholder="Buscar comercio o beneficio…">
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div id="banner-holder"></div>
+
+  <section class="carousel-section" id="carousel-section" hidden>
+    <div class="carousel-label">★ Vidriera principal</div>
+    <div class="carousel">
+      <div class="carousel-track" id="carousel-track"></div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <div id="grid" class="grid">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </div>
+
+</main>
+
+<footer>
+  ¿Tenés un comercio en Reconquista y querés publicar tus beneficios acá?<br>
+  Escribinos a <a href="mailto:vigenterqta@gmail.com">vigenterqta@gmail.com</a>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ======================================================================
+   VIGENTE RECONQUISTA Y ZONA — Página pública (Fase 3)
+   ----------------------------------------------------------------------
+   Todo el contenido sale del motor de datos de la Fase 2 (Apps Script).
+   Si alguna vez movés la implementación y te da una URL nueva, solo hay
+   que cambiar la constante APPS_SCRIPT_URL de acá abajo.
+   ====================================================================== */
+
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyP6fNLwvpK4Rf0rsGdyXSiBuy38LL0_w2LC75YuCjJC8fA8UPIm6VCEsYE1eLdTFWhqA/exec";
+const MAX_VIDRIERA = 6; // tope del plan más caro, igual que en el plan de negocio
+
+let TODOS = [];       // todos los beneficios vigentes, tal cual llegan del backend
+let VIDRIERA = [];     // los de "Vidriera Principal" (van al carrusel)
+let RESTO = [];        // el resto (van a la grilla)
+let rubroActivo = "Todos";
+let textoBusqueda = "";
+let carouselIndex = 0;
+let carouselTimer = null;
+
+const $grid = document.getElementById('grid');
+const $chips = document.getElementById('chips');
+const $search = document.getElementById('search');
+const $updated = document.getElementById('updated');
+const $carouselSection = document.getElementById('carousel-section');
+const $track = document.getElementById('carousel-track');
+const $dots = document.getElementById('dots');
+const $bannerHolder = document.getElementById('banner-holder');
+const $toast = document.getElementById('toast');
+
+cargarBeneficios();
+
+async function cargarBeneficios(){
+  mostrarCargando();
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!data.ok) throw new Error("Respuesta no ok");
+
+    TODOS = data.beneficios || [];
+    VIDRIERA = TODOS.filter(b => b.plan === "Vidriera Principal").slice(0, MAX_VIDRIERA);
+    RESTO = TODOS.filter(b => !VIDRIERA.includes(b));
+
+    pintarActualizado(data.actualizado);
+    pintarChips();
+    pintarCarousel();
+    pintarGrid();
+    manejarLinkProfundo();
+  } catch (err) {
+    mostrarError();
+  }
+}
+
+function pintarActualizado(fechaIso){
+  try {
+    const f = new Date(fechaIso);
+    $updated.textContent = "Actualizado " + f.toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+  } catch(e) { $updated.textContent = ""; }
+}
+
+/* ---------------- filtros ---------------- */
+
+function pintarChips(){
+  const rubros = ["Todos", ...new Set(TODOS.map(b => b.rubro).filter(Boolean))];
+  $chips.innerHTML = "";
+  rubros.forEach(r => {
+    const btn = document.createElement('button');
+    btn.className = "chip" + (r === rubroActivo ? " active" : "");
+    btn.textContent = r;
+    btn.onclick = () => { rubroActivo = r; pintarChips(); pintarGrid(); };
+    $chips.appendChild(btn);
+  });
+}
+
+$search.addEventListener('input', () => {
+  textoBusqueda = $search.value.trim().toLowerCase();
+  pintarGrid();
+});
+
+function aplicarFiltros(lista){
+  return lista.filter(b => {
+    const pasaRubro = rubroActivo === "Todos" || b.rubro === rubroActivo;
+    const texto = (b.comercio + " " + b.beneficio).toLowerCase();
+    const pasaTexto = !textoBusqueda || texto.includes(textoBusqueda);
+    return pasaRubro && pasaTexto;
+  });
+}
+
+/* ---------------- carrusel ---------------- */
+
+function pintarCarousel(){
+  if (VIDRIERA.length === 0) { $carouselSection.hidden = true; return; }
+  $carouselSection.hidden = false;
+  $track.innerHTML = "";
+  $dots.innerHTML = "";
+
+  VIDRIERA.forEach((b, i) => {
+    const slide = document.createElement('div');
+    slide.className = "slide";
+    slide.innerHTML = `
+      <span class="ribbon">★ Destacado</span>
+      <div class="comercio">${escapeHtml(b.comercio)}</div>
+      <div class="beneficio">${escapeHtml(b.beneficio)}</div>
+      <div class="meta">${escapeHtml(b.rubro)} · vence ${escapeHtml(b.hasta)}</div>
+    `;
+    $track.appendChild(slide);
+
+    const dot = document.createElement('button');
+    dot.className = "dot" + (i === 0 ? " active" : "");
+    dot.onclick = () => irASlide(i);
+    $dots.appendChild(dot);
+  });
+
+  carouselIndex = 0;
+  actualizarCarousel();
+  iniciarAutoRotacion();
+
+  // pausar al tocar/pasar el mouse
+  const carouselEl = $track.closest('.carousel');
+  carouselEl.addEventListener('mouseenter', detenerAutoRotacion);
+  carouselEl.addEventListener('mouseleave', iniciarAutoRotacion);
+  habilitarSwipe(carouselEl);
+}
+
+function irASlide(i){
+  carouselIndex = i;
+  actualizarCarousel();
+}
+
+function actualizarCarousel(){
+  $track.style.transform = `translateX(-${carouselIndex * 100}%)`;
+  [...$dots.children].forEach((d, i) => d.classList.toggle('active', i === carouselIndex));
+}
+
+function iniciarAutoRotacion(){
+  detenerAutoRotacion();
+  if (VIDRIERA.length <= 1) return;
+  carouselTimer = setInterval(() => {
+    carouselIndex = (carouselIndex + 1) % VIDRIERA.length;
+    actualizarCarousel();
+  }, 5000);
+}
+function detenerAutoRotacion(){ if (carouselTimer) clearInterval(carouselTimer); }
+
+function habilitarSwipe(el){
+  let startX = null;
+  el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; detenerAutoRotacion(); }, {passive:true});
+  el.addEventListener('touchend', e => {
+    if (startX === null) return;
+    const diff = e.changedTouches[0].clientX - startX;
+    if (diff > 40) irASlide((carouselIndex - 1 + VIDRIERA.length) % VIDRIERA.length);
+    else if (diff < -40) irASlide((carouselIndex + 1) % VIDRIERA.length);
+    startX = null;
+    iniciarAutoRotacion();
+  });
+}
+
+/* ---------------- grilla ---------------- */
+
+function pintarGrid(){
+  const lista = aplicarFiltros(RESTO);
+
+  if (TODOS.length === 0) {
+    $grid.innerHTML = panelHtml("Todavía no hay beneficios cargados. Volvé pronto 🙂");
+    return;
+  }
+  if (lista.length === 0) {
+    $grid.innerHTML = panelHtml("No encontramos beneficios con ese filtro. Probá con otro rubro o búsqueda.");
+    return;
+  }
+
+  $grid.innerHTML = "";
+  lista.forEach(b => $grid.appendChild(crearCard(b)));
+}
+
+function crearCard(b){
+  const card = document.createElement('div');
+  card.className = "card";
+  card.id = "b-" + b.id;
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="comercio">${escapeHtml(b.comercio)}</div>
+      <div class="rubro-tag">${escapeHtml(b.rubro)}</div>
+    </div>
+    <div class="beneficio">${escapeHtml(b.beneficio)}</div>
+    ${b.condicion ? `<div class="condicion">${escapeHtml(b.condicion)}</div>` : ""}
+    <div class="card-bottom">
+      <span class="vence">Vence ${escapeHtml(b.hasta)}</span>
+      <button class="share-btn" aria-label="Compartir">↗ Compartir</button>
+    </div>
+  `;
+  card.querySelector('.share-btn').onclick = () => compartir(b);
+  return card;
+}
+
+function panelHtml(msg){
+  return `<div class="panel" style="grid-column:1/-1">${msg}</div>`;
+}
+
+/* ---------------- compartir ---------------- */
+
+function compartir(b){
+  const url = new URL(location.href);
+  url.search = "";
+  url.searchParams.set('b', b.id);
+  const texto = `${b.comercio}: ${b.beneficio} (vence ${b.hasta}) — Vigente Reconquista y Zona`;
+
+  if (navigator.share) {
+    navigator.share({ title: "Vigente Reconquista y Zona", text: texto, url: url.toString() }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(texto + "\n" + url.toString()).then(() => mostrarToast("Enlace copiado — pegalo donde quieras"));
+  } else {
+    mostrarToast(url.toString());
+  }
+}
+
+function mostrarToast(msg){
+  $toast.textContent = msg;
+  $toast.classList.add('show');
+  setTimeout(() => $toast.classList.remove('show'), 2600);
+}
+
+/* ---------------- link profundo (?b=ID) ---------------- */
+
+function manejarLinkProfundo(){
+  const params = new URLSearchParams(location.search);
+  const id = params.get('b');
+  if (!id) return;
+
+  const existe = TODOS.some(b => b.id === id);
+  if (existe) {
+    rubroActivo = "Todos"; textoBusqueda = "";
+    pintarChips(); pintarGrid();
+    setTimeout(() => {
+      const el = document.getElementById('b-' + id);
+      if (el) {
+        el.scrollIntoView({ behavior:'smooth', block:'center' });
+        el.classList.add('highlight');
+        setTimeout(() => el.classList.remove('highlight'), 2500);
+      }
+    }, 60);
+  } else {
+    $bannerHolder.innerHTML = `
+      <div class="banner">
+        <span>Ese beneficio ya no está vigente. Mirá los que sí siguen vigentes hoy 👇</span>
+        <button onclick="this.closest('.banner').remove()">Cerrar</button>
+      </div>`;
+  }
+  history.replaceState(null, "", location.pathname);
+}
+
+/* ---------------- estados de carga / error ---------------- */
+
+function mostrarCargando(){
+  $grid.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+}
+
+function mostrarError(){
+  $carouselSection.hidden = true;
+  $grid.innerHTML = `
+    <div class="panel" style="grid-column:1/-1">
+      No pudimos cargar los beneficios en este momento.<br>
+      <button onclick="cargarBeneficios()">Reintentar</button>
+    </div>`;
+}
+
+/* ---------------- utilidades ---------------- */
+
+function escapeHtml(str){
+  return String(str ?? "").replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+</script>
+
+</body>
+</html>
