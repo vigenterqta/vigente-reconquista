@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -76,7 +77,16 @@
   .carousel-label{ display:flex; align-items:center; gap:6px; font-weight:800; font-size:13px; color:var(--accent-ink); text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; }
   .carousel{ position:relative; overflow:hidden; border-radius:16px; box-shadow:var(--shadow); }
   .carousel-track{ display:flex; transition:transform .45s ease; touch-action:pan-y; }
-  .slide{ flex:0 0 100%; background:linear-gradient(135deg, var(--accent), var(--accent-ink)); color:#fff; padding:22px; min-height:150px; display:flex; flex-direction:column; justify-content:flex-end; }
+  .slide{
+    position:relative; flex:0 0 100%; background:linear-gradient(135deg, var(--accent), var(--accent-ink));
+    background-size:cover; background-position:center; color:#fff; padding:22px; min-height:170px;
+    display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden;
+  }
+  .slide.has-img::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(180deg, rgba(20,15,10,.05) 25%, rgba(20,15,10,.82) 100%);
+  }
+  .slide > *{ position:relative; z-index:1; }
   .slide .ribbon{ align-self:flex-start; background:rgba(255,255,255,.22); padding:4px 10px; border-radius:999px; font-size:11.5px; font-weight:700; margin-bottom:10px; }
   .slide .comercio{ font-family:'Baloo 2'; font-weight:800; font-size:20px; }
   .slide .beneficio{ font-size:15px; margin-top:4px; opacity:.95; }
@@ -91,8 +101,13 @@
   .card{
     background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px;
     box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px; scroll-margin-top:120px;
+    overflow:hidden;
   }
   .card.highlight{ outline:2px solid var(--accent); outline-offset:2px; }
+  .card-img{
+    width:calc(100% + 32px); margin:-16px -16px 0; aspect-ratio:16/9; object-fit:cover;
+    background:var(--surface-2); display:block;
+  }
   .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
   .card .comercio{ font-weight:700; font-size:16.5px; }
   .rubro-tag{ font-size:11.5px; font-weight:700; color:var(--info); background:var(--info-soft); padding:3px 9px; border-radius:999px; white-space:nowrap; }
@@ -279,6 +294,17 @@ function pintarCarousel(){
       <div class="beneficio">${escapeHtml(b.beneficio)}</div>
       <div class="meta">${escapeHtml(b.rubro)} · vence ${escapeHtml(b.hasta)}</div>
     `;
+    // La foto se precarga antes de usarla de fondo: si el link está roto o
+    // la foto ya no existe en Drive, la tarjeta se queda con el degradé
+    // naranja de siempre en vez de mostrarse rota o en blanco.
+    if (b.imagen) {
+      const previa = new Image();
+      previa.onload = () => {
+        slide.classList.add('has-img');
+        slide.style.backgroundImage = `url("${b.imagen}")`;
+      };
+      previa.src = b.imagen;
+    }
     $track.appendChild(slide);
 
     const dot = document.createElement('button');
@@ -354,6 +380,7 @@ function crearCard(b){
   card.className = "card";
   card.id = "b-" + b.id;
   card.innerHTML = `
+    ${b.imagen ? `<img class="card-img" src="${b.imagen}" alt="${escapeHtml(b.comercio)}" loading="lazy" decoding="async" onerror="this.remove()">` : ""}
     <div class="card-top">
       <div class="comercio">${escapeHtml(b.comercio)}</div>
       <div class="rubro-tag">${escapeHtml(b.rubro)}</div>
