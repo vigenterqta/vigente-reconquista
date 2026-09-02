@@ -198,7 +198,7 @@
    ====================================================================== */
 
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyP6fNLwvpK4Rf0rsGdyXSiBuy38LL0_w2LC75YuCjJC8fA8UPIm6VCEsYE1eLdTFWhqA/exec";
-const MAX_VIDRIERA = 6; // tope del plan más caro, igual que en el plan de negocio
+const MAX_VIDRIERA = 15; // tope del plan más caro, igual que en el plan de negocio
 
 let TODOS = [];       // todos los beneficios vigentes, tal cual llegan del backend
 let VIDRIERA = [];     // los de "Vidriera Principal" (van al carrusel)
@@ -366,7 +366,14 @@ function pintarGrid(){
     $grid.innerHTML = panelHtml("Todavía no hay beneficios cargados. Volvé pronto 🙂");
     return;
   }
+  const hayFiltroActivo = rubroActivo !== "Todos" || !!textoBusqueda;
   if (lista.length === 0) {
+    // Si no hay filtro activo y la grilla está vacía, es porque todos los
+    // beneficios vigentes entraron en el carrusel de arriba — no es un error.
+    if (RESTO.length === 0 && !hayFiltroActivo) {
+      $grid.innerHTML = "";
+      return;
+    }
     $grid.innerHTML = panelHtml("No encontramos beneficios con ese filtro. Probá con otro rubro o búsqueda.");
     return;
   }
