@@ -304,9 +304,12 @@ async function cargarPanel(){
 
   const r = await llamar("miComercio", { token });
   if (!r.ok) {
-    // token vencido o inválido: volvemos al login
+    // token vencido o inválido: volvemos al login, mostrando por qué
     localStorage.removeItem("vigente_token");
+    $("pasoCodigo").classList.add("oculto");
     $("pasoEmail").classList.remove("oculto");
+    $("errorEmail").textContent = r.error || "No pudimos abrir tu panel, probá entrar de nuevo.";
+    $("errorEmail").classList.remove("oculto");
     return;
   }
 
